@@ -1,5 +1,6 @@
 # DenseNet-bird-classification
-# 使用DenseNet模型对200种鸟类图像进行分类
+使用DenseNet模型对200种鸟类图像进行分类
+## [数据集](https://drive.google.com/file/d/1CWwA4M7bZiKvsZ2sF7_4Vc3f3YPK7zcS/view?usp=sharing)
 ## 在测试集上的表现
 
 |      | Desnet-121 | *Densenet-121withSE | Densenet-201withECA |
