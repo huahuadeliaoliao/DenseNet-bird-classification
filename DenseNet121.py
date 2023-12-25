@@ -7,7 +7,7 @@ from tensorflow.keras.models import Model
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
-# 定义中心裁剪函数
+# Define the center crop function
 def center_crop(img, target_height=224, target_width=224):
     height, width, _ = img.shape
 
@@ -25,7 +25,7 @@ target_size = (224, 224)
 num_classes = 200
 batch_size = 32
 
-# 创建图像数据生成器并进行数据增强
+# Create an image data generator and perform data enhancement
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -72,7 +72,7 @@ model = Model(inputs=base_model.input, outputs=predictions)
 
 model.compile(optimizer=Adam(lr=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# 添加回调函数
+# Adding Callback Functions
 early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
 model_checkpoint = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', save_best_only=True)
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5, verbose=1)

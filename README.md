@@ -1,16 +1,16 @@
 # DenseNet-bird-classification
-使用DenseNet模型对200种鸟类图像进行分类
-## [数据集](https://drive.google.com/file/d/1CWwA4M7bZiKvsZ2sF7_4Vc3f3YPK7zcS/view?usp=sharing)
-## 在测试集上的表现
+## [Datasets](https://drive.google.com/file/d/1CWwA4M7bZiKvsZ2sF7_4Vc3f3YPK7zcS/view?usp=sharing)
+## Performance on the test set
 
 |      | Desnet-121 | *Densenet-121withSE | Densenet-201withECA |
 | :--- | :---: | :---: | :---: |
 | accuracy | 0.79 | *0.67 | 0.85 |
 | loss | 0.81 | *1.45 | 0.71 |
 
-## 可以继续改进的方向
-1. 加入更多的数据增强
-2. 由于DenseNet121,169和201的k值都相同,这三个模型在当前数据集上的表现差异并不大,可以考虑使用k值更大的DenseNet模型，如DenseNet161或Wide-DenseNet-BC
+## Directions for continued improvement
+1. Add more data enhancements.
+2. Since DenseNet121,169 and 201 all have the same k-value, there is not much difference in the performance of these three models on the current dataset, and a DenseNet model with a larger k-value such as DenseNet161 or Wide-DenseNet-BC can be considered.
 
-## *备注
-加入了SE注意力机制DenseNet模型需要大量的计算资源，由于我的时间和设备限制所以我得到的关于DenseNet121withSE的结果并不能准确表示加入了SE注意力机制的效果。在我查询的相关[论文](https://www.sciencedirect.com/science/article/abs/pii/S195903182100141X)中表示SE模块对DenseNet模型有很大的提升,所以如果你的设备有足够的计算资源，通过调整参数应该可以从使用了SE机制的DenseNet模型上得到很好的效果,如果你的设备不具备足够的计算资源，那么我推荐你使用ECA注意力机制。
+## *Note
+The addition of the SE attention mechanism DenseNet model requires a lot of computational resources, due to my time and equipment constraints so the results I got about DenseNet121withSE do not accurately represent the effect of adding the SE attention mechanism.
+In the related[papers](https://www.sciencedirect.com/science/article/abs/pii/S195903182100141X)I checked, it is said that the SE module has a great improvement on the DenseNet model, so if your device has enough computational resources, you should be able to get good results from the DenseNet model using the SE mechanism by adjusting the parameters, and if your device doesn't have enough computational resources, then I would recommend you to use the ECA attention mechanism.

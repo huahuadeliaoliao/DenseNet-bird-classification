@@ -11,7 +11,7 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLRO
 from tensorflow.keras.regularizers import l1_l2
 from sklearn.metrics import classification_report
 
-# 定义中心裁剪函数
+# Define the center crop function
 def center_crop(img, target_height=224, target_width=224):
     height, width, _ = img.shape
     start_x = (width - target_width) // 2
@@ -26,7 +26,7 @@ target_size = (224, 224)
 num_classes = 200
 batch_size = 8
 
-# 创建图像数据生成器并进行数据增强
+# Create an image data generator and perform data enhancement
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -59,7 +59,7 @@ test_generator = test_datagen.flow_from_directory(
     class_mode='categorical'
 )
 
-# 构建特征通道注意力块（SE块）并使用PReLU
+# Constructing Feature Channel Attention Blocks (SE Blocks) and Using PReLUs
 def se_block(input_tensor, ratio=16):
     init = input_tensor
     channel_axis = -1 if tf.keras.backend.image_data_format() == 'channels_last' else 1
@@ -75,7 +75,7 @@ def se_block(input_tensor, ratio=16):
 
     return Multiply()([init, se])
 
-# 修改DenseNet121，添加SE块
+# Modify DenseNet121 to add SE blocks
 def modified_densenet121(input_shape=(224, 224, 3), num_classes=200):
     base_model = DenseNet121(include_top=False, weights='imagenet', input_tensor=None, input_shape=input_shape)
 
@@ -101,7 +101,7 @@ optimizer = Adam(learning_rate=0.001)
 
 model.compile(optimizer=optimizer, loss='categorical_crossentropy', metrics=['accuracy'])
 
-# 添加回调函数
+# Adding Callback Functions
 early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
 model_checkpoint = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', save_best_only=True)
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5, verbose=1)

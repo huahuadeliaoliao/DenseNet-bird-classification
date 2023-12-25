@@ -10,7 +10,7 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 import math
 
-# ECA 注意力机制
+# ECA Attention Mechanisms
 def eca_block(inputs, b=1, gamma=2):
     in_channel = inputs.shape[-1]
     kernel_size = int(abs((math.log(in_channel, 2) + b) / gamma))
@@ -24,7 +24,7 @@ def eca_block(inputs, b=1, gamma=2):
     outputs = tf.keras.layers.multiply([inputs, x])
     return outputs
 
-# 定义中心裁剪函数
+# Define the center crop function
 def center_crop(img, target_height=224, target_width=224):
     height, width, _ = img.shape
     start_x = (width - target_width) // 2
@@ -39,7 +39,7 @@ target_size = (224, 224)
 num_classes = 200
 batch_size = 32
 
-# 创建图像数据生成器
+# Create an image data generator and perform data enhancement
 train_datagen = ImageDataGenerator(
     rescale=1./255,
     rotation_range=20,
@@ -78,14 +78,14 @@ x = GlobalAveragePooling2D()(x)
 x = BatchNormalization()(x)
 x = Dropout(0.5)(x)
 x = Dense(1024)(x)
-x = PReLU()(x)  # 使用 PReLU
+x = PReLU()(x)
 x = BatchNormalization()(x)
 x = Dropout(0.5)(x)
 predictions = Dense(num_classes, activation='softmax')(x)
 
 model = Model(inputs=base_model.input, outputs=predictions)
 
-# 遍历模型的每一层，添加 ECA 注意力机制
+# Iterate through each layer of the model and add ECA attention mechanisms
 for layer in model.layers:
     if 'conv2d' in layer.name:
         layer_output = layer.output
@@ -94,7 +94,7 @@ for layer in model.layers:
 
 model.compile(optimizer=Adam(lr=0.0001), loss='categorical_crossentropy', metrics=['accuracy'])
 
-# 添加回调函数
+# Adding Callback Functions
 early_stop = EarlyStopping(monitor='val_loss', patience=10, verbose=1)
 model_checkpoint = ModelCheckpoint(filepath='best_model.h5', monitor='val_loss', save_best_only=True)
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=5, verbose=1)
